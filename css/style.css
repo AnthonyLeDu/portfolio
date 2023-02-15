@@ -3,6 +3,7 @@
 }
 
 body {
+  position: relative;
   font-family: 'Chakra Petch', sans-serif;
   color: #FFFFFF;
   background-image: url(../img/background.jpg);
@@ -11,20 +12,23 @@ body {
   height: 2000px;
   filter: hue-rotate(80);
 }
-@media (max-width: 1280px) {
-  body {
-    background-image: url(../img/background_medium.jpg);
-  }
+
+/* Trick to be able to filter the background */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url(../img/background.jpg);
+    /* filter: grayscale(100%); */
 }
-@media (max-width: 640px) {
-  body {
-    background-image: url(../img/background_small.jpg);
-  }
+
+header, main, footer {
+  position: relative;
 }
 
 /* Header */
 header {
-  margin-top: 2em;
   width: 100%;
   box-sizing: border-box;
   padding: 2em;
@@ -40,13 +44,13 @@ header {
   align-items: stretch;
 }
 
-#header-title, #header-links, #filters {
+.box {
   padding: 0.9em;
   background-color: #FFFFFF11;
   vertical-align: middle;
   display: flex;
   align-items: center;
-  border-radius: 0.2em;
+  border-radius: 0.3em;
 }
 
 #header-title {
@@ -92,6 +96,7 @@ h1 {
   border: 1px solid #FFFFFF;
   border-radius: 100vmax;
   padding: 0.5em;
+  cursor: pointer;
 }
 
 .filters__button--active {
@@ -113,4 +118,16 @@ footer {
 
 footer a {
   color: inherit;
+}
+
+
+@media (max-width: 1280px) {
+  body {
+    background-image: url(../img/background_medium.jpg);
+  }
+}
+@media (max-width: 640px) {
+  body {
+    background-image: url(../img/background_small.jpg);
+  }
 }
