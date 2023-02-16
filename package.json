@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "description": "Personal portfolio website",
   "main": "dist/index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AnthonyLeDu/portfolio.git"
@@ -17,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/AnthonyLeDu/portfolio/issues"
   },
-  "homepage": "https://github.com/AnthonyLeDu/portfolio#readme"
+  "homepage": "https://github.com/AnthonyLeDu/portfolio#readme",
+  "devDependencies": {
+    "eslint": "^8.34.0"
+  }
 }
