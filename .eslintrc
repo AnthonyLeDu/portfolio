@@ -1,12 +1,11 @@
 {
+  "extends": "airbnb",
   "env": {
-      "browser": true,
-      "es6": true
+      "browser": true
   },
-  "extends": "eslint:recommended",
   "rules": {
       "indent": ["error", 2],
-      "quotes": [1, "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
-      "semi": ["error", "always"]
+      "linebreak-style": ["error", "windows"],
+      "no-param-reassign": ["error", { "props": false }]
   }
 }
