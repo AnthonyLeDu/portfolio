@@ -18,6 +18,26 @@
   {
     "name": "Express.js",
     "icon": "express-js.svg"
+  },
+  {
+    "name": "EJS",
+    "icon": "ejs.svg"
+  },
+  {
+    "name": "Node.js",
+    "icon": "node-js.svg"
+  },
+  {
+    "name": "PostgreSQL",
+    "icon": "postgresql.svg"
+  },
+  {
+    "name": "Sequelize",
+    "icon": "sequelize.svg"
+  },
+  {
+    "name": "TypeScript",
+    "icon": "typescript.svg"
   }
 
 ]
