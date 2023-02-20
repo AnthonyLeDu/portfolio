@@ -14,8 +14,17 @@ const app = {
     projects: null,
   },
 
+  toggleTechno(technoName) {
+    return (event) => {
+      const techno = app.state.technos.find((tech) => tech.name === technoName);
+      techno.active = !techno.active;
+      event.target.classList.toggle('filter-buttons__btn--active');
+      app.updateProjects();
+    };
+  },
+
   init() {
-    app.updateUI();
+    app.buildUI();
   },
 
   async fetchData() {
@@ -23,6 +32,7 @@ const app = {
       // Fetch technos
       const response1 = await fetch('../data/technos.json');
       app.state.technos = await response1.json();
+      app.state.technos.sort((a, b) => a.name.localeCompare(b.name));
       // Fetch projects
       const response2 = await fetch('../data/projects.json');
       app.state.projects = await response2.json();
@@ -31,36 +41,28 @@ const app = {
     }
   },
 
-  async updateUI() {
+  async buildUI() {
     if (app.state.technos === null) {
       await app.fetchData();
-      app.state.technos = app.state.technos.map((tech) => ({ ...tech, active: true }));
+      app.state.technos = app.state.technos.map((tech) => ({ ...tech, active: false }));
     }
-    app.updateFilters();
+    app.createFilters();
+    app.updateProjects();
   },
 
-  handleFilterClicked(technoObject) {
-    return () => {
-      technoObject.active = !technoObject.active;
-      app.updateFilters();
-    };
-  },
-
-  updateFilters() {
-    const filterContainerElement = document.getElementById('filter');
-    filterContainerElement.textContent = ''; // Clear
+  createFilters() {
+    const filterButtonsElement = document.getElementById('filter-buttons');
     app.state.technos.forEach((techno) => {
-      const activeClass = techno.active ? 'filter-button--active' : '';
       // Create the button
-      const buttonContainerElem = createDOMElement('div', filterContainerElement, {
-        className: `filter-button ${activeClass}`,
+      const buttonContainerElem = createDOMElement('div', filterButtonsElement, {
+        className: 'filter-buttons__btn',
       });
       // Click handler
-      buttonContainerElem.addEventListener('click', app.handleFilterClicked(techno));
+      buttonContainerElem.addEventListener('click', app.toggleTechno(techno.name));
       // Icon and text
       createDOMElement('img', buttonContainerElem, {
         src: `img/icons/${techno.icon}`,
-        className: 'filter-button__icon',
+        className: 'filter-buttons__btn__icon',
       });
       createDOMElement('p', buttonContainerElem, { textContent: techno.name });
     });
@@ -68,7 +70,10 @@ const app = {
   },
 
   updateProjects() {
-
+    // If no filter selected, consider that all are active
+    app.state.technos.forEach((techno) => {
+      if (techno.active) console.log(techno.name);
+    });
   },
 };
 

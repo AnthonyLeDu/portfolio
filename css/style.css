@@ -53,14 +53,13 @@ header {
   padding: 0.9em;
   background-color: #FFFFFF11;
   vertical-align: middle;
-  display: flex;
-  align-items: center;
   border-radius: 0.3em;
 }
 
 #header-title {
   flex-direction: column;
   justify-content: center;
+  display: flex;
 }
 
 h1,
@@ -72,6 +71,10 @@ h2 {
 h1 {
   font-weight: bold;
   text-transform: uppercase;
+}
+
+h3 {
+  margin-bottom: 0.5em;
 }
 
 #header-links {
@@ -94,11 +97,19 @@ h1 {
 
 /* Filter */
 #filter {
-  flex-wrap: wrap;
-  gap: 0.5em;
+  text-align: right;
+  margin-left: 2em;
 }
 
-.filter-button {
+#filter-buttons {
+  font-size: 0.9em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  justify-content: space-evenly;
+}
+
+.filter-buttons__btn {
   background-color: #FFFFFF22;
   border: 1px solid #FFFFFF;
   border-radius: 100vmax;
@@ -112,18 +123,22 @@ h1 {
   gap: 0.5em;
 }
 
+.filter-buttons__btn * {
+  pointer-events: none;
+}
+
 /* Inactive button */
-.filter-button:not(.filter-button--active) {
+.filter-buttons__btn:not(.filter-buttons__btn--active) {
   background-color: #FFFFFF00;
   color: var(--color-white-semi-transparent);
   border: 1px solid var(--color-white-semi-transparent);
 }
 
-.filter-button:not(.filter-button--active) .filter-button__icon {
+.filter-buttons__btn:not(.filter-buttons__btn--active) .filter-buttons__btn__icon {
   filter: grayscale(1.0);
 }
 
-.filter-button__icon {
+.filter-buttons__btn__icon {
   height: 1em;
 }
 
