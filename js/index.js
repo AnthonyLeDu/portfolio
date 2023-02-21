@@ -115,9 +115,15 @@ const app = {
 
   updateProjects() {
     // If no filter selected, consider that all are active
-    console.log(app.state.technos
+    const filteredTechnos = app.state.technos
       .filter((tech) => !app.state.masterFilter || tech.checked)
-      .map((tech) => tech.name));
+      .map((tech) => tech.name);
+
+    const filteredProjects = app.state.projects
+      .filter((project) => project.technos
+        .filter((tech) => filteredTechnos.includes(tech)).length > 0);
+
+    console.log(filteredProjects.map((project) => project.name));
   },
 
   async buildUI() {
