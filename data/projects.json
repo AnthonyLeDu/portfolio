@@ -6,6 +6,25 @@
       "CSS3",
       "JavaScript",
       "Git"
-    ]
+    ],
+    "image": "guess-who_800px.jpg",
+    "imageSources": [
+      ["guess-who_800px.jpg", "1280w"],
+      ["guess-who_400px.jpg", "640w"]
+    ],
+    "github": "https://github.com/AnthonyLeDu/Guess-Who",
+    "website": "https://anthonyledu.github.io/Guess-Who/"
+  },
+  {
+    "name": "Vinted combined search",
+    "technos": [
+      "TypeScript",
+      "Git",
+      "Node.js"
+    ],
+    "image": "terminal.svg",
+    "imageSources": null,
+    "github": "https://github.com/AnthonyLeDu/vinted-combined-search",
+    "website": null
   }
 ]

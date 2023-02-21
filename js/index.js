@@ -5,7 +5,7 @@
  * @param {Array} attributes List of {atttribute: value} to setup the element.
  * @returns {HTMLElement} The created element.
  */
-function createDOMElement(tag, parent, attributes = []) {
+function createDOMElement(tag, parent, attributes = {}) {
   const element = document.createElement(tag);
   parent.appendChild(element);
   Object.keys(attributes).forEach((attr) => {
@@ -91,7 +91,7 @@ const app = {
   updateFilterButtons() {
     console.log('toto');
     app.state.technos.forEach((tech) => {
-      app.setButtonActivated(tech.element, app.state.masterFilter && tech.checked);
+      app.setButtonActivated(tech.filterBtnElem, app.state.masterFilter && tech.checked);
     });
   },
 
@@ -116,17 +116,53 @@ const app = {
    * Create the techno buttons to filter projects, according to the fetched technos.
    */
   createFilterButtons() {
-    const filterButtonsElement = document.getElementById('filter-buttons');
+    const filterButtonsElem = document.getElementById('filter-buttons');
     app.state.technos.forEach((techno) => {
       // Create the button
-      techno.element = createDOMElement('button', filterButtonsElement);
+      techno.filterBtnElem = createDOMElement('button', filterButtonsElem);
       // Click handler
-      techno.element.addEventListener('click', app.toggleTechno(techno));
+      techno.filterBtnElem.addEventListener('click', app.toggleTechno(techno));
       // Icon and text
-      createDOMElement('img', techno.element, {
+      createDOMElement('img', techno.filterBtnElem, {
         src: `img/icons/${techno.icon}`,
       });
-      createDOMElement('p', techno.element, { textContent: techno.name });
+      createDOMElement('p', techno.filterBtnElem, { textContent: techno.name });
+    });
+  },
+
+  createProjectsBoxes() {
+    const projectsElem = document.getElementById('projects');
+    app.state.projects.forEach((project) => {
+      // Container
+      project.element = createDOMElement('article', projectsElem, { className: 'project box' });
+      // Image
+      const imageElem = createDOMElement('img', project.element, {
+        className: 'project__image',
+        alt: project.name,
+        src: `img/projects/${project.image}`,
+      });
+      // Srcset if provided
+      if (project.imageSources) {
+        imageElem.srcset = project.imageSources.map((imageData) => `img/projects/${imageData.join(' ')}`).join(', ');
+      }
+      // Footer
+      const projectFooterElem = createDOMElement('div', project.element, { className: 'project-footer' });
+      // Title
+      createDOMElement('h3', projectFooterElem, { className: 'project__title' }).textContent = project.name;
+      // Technos
+      project.technos.sort((a, b) => a.localeCompare(b));
+      project.technos.forEach((projectTech) => {
+        const appTechno = app.state.technos.find((appTech) => appTech.name === projectTech);
+        const iconContainer = createDOMElement('div', projectFooterElem, { className: 'project-techno' });
+        // Icon
+        createDOMElement('img', iconContainer, {
+          className: 'project-techno__icon',
+          src: `img/icons/${appTechno ? appTechno.icon : 'question-mark.svg'}`,
+        });
+        // Icon tooltip
+        const tooltip = createDOMElement('span', iconContainer, { className: 'project-techno__tooltip' });
+        tooltip.textContent = projectTech;
+      });
     });
     app.updateProjects();
   },
@@ -140,11 +176,13 @@ const app = {
       .filter((tech) => !app.state.masterFilter || tech.checked)
       .map((tech) => tech.name);
 
-    const filteredProjects = app.state.projects
-      .filter((project) => project.technos
-        .filter((tech) => filteredTechnos.includes(tech)).length > 0);
-
-    console.log(filteredProjects.map((project) => project.name));
+    app.state.projects.forEach((project) => {
+      if (project.technos.filter((tech) => filteredTechnos.includes(tech)).length > 0) {
+        project.element.classList.remove('project--hidden');
+      } else {
+        project.element.classList.add('project--hidden');
+      }
+    });
   },
 
   /**
@@ -156,7 +194,7 @@ const app = {
       app.state.technos = app.state.technos.map((tech) => ({ ...tech, checked: false }));
     }
     app.createFilterButtons();
-    app.updateProjects();
+    app.createProjectsBoxes();
   },
 
   /**
