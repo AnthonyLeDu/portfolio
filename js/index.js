@@ -1,4 +1,4 @@
-function createDOMElement(tag, parent, attributes) {
+function createDOMElement(tag, parent, attributes = []) {
   const element = document.createElement(tag);
   parent.appendChild(element);
   Object.keys(attributes).forEach((attr) => {
@@ -10,21 +10,77 @@ function createDOMElement(tag, parent, attributes) {
 const app = {
 
   state: {
+    masterFilter: false,
     technos: null,
     projects: null,
   },
 
-  toggleTechno(technoName) {
+  init() {
+    app.addListeners();
+    app.buildUI(); // async
+  },
+
+  /**
+   * Update the master filter state depending on the buttons activeness.
+   */
+  updateMasterFilter() {
+    app.setMasterFilter(app.state.technos.find((tech) => tech.checked));
+  },
+
+  /**
+   * Set the master filter state.
+   * @param {Boolean} state
+   */
+  setMasterFilter(state) {
+    app.state.masterFilter = state;
+    app.setButtonActivated(app.filterToggleButtonElem, app.state.masterFilter);
+  },
+
+  /**
+   * Master filter toggle handler.
+   */
+  toggleMasterFilter() {
+    app.setMasterFilter(!app.state.masterFilter);
+    app.updateFilterButtons();
+    app.updateProjects();
+  },
+
+  /**
+   * Techno button toggle handler.
+   * @param {Object} techno The techno Object bound to the clicked button element.
+   */
+  toggleTechno(techno) {
     return (event) => {
-      const techno = app.state.technos.find((tech) => tech.name === technoName);
-      techno.active = !techno.active;
-      event.target.classList.toggle('filter-buttons__btn--active');
+      // If filtering was off, clear the filters before adding the clicked one
+      if (!app.state.masterFilter) {
+        app.state.technos.forEach((tech) => {
+          tech.checked = false;
+        });
+      }
+
+      techno.checked = !techno.checked;
+      app.setButtonActivated(event.target, techno.checked);
+      app.updateMasterFilter();
       app.updateProjects();
     };
   },
 
-  init() {
-    app.buildUI();
+  setButtonActivated(element, state) {
+    if (state) {
+      element.classList.add('button--active');
+    } else {
+      element.classList.remove('button--active');
+    }
+  },
+
+  /**
+   * Update filter buttons look according to masterFilter and their own checked state.
+   */
+  updateFilterButtons() {
+    console.log('toto');
+    app.state.technos.forEach((tech) => {
+      app.setButtonActivated(tech.element, app.state.masterFilter && tech.checked);
+    });
   },
 
   async fetchData() {
@@ -41,40 +97,43 @@ const app = {
     }
   },
 
-  async buildUI() {
-    if (app.state.technos === null) {
-      await app.fetchData();
-      app.state.technos = app.state.technos.map((tech) => ({ ...tech, active: false }));
-    }
-    app.createFilters();
-    app.updateProjects();
-  },
-
   createFilters() {
     const filterButtonsElement = document.getElementById('filter-buttons');
     app.state.technos.forEach((techno) => {
       // Create the button
-      const buttonContainerElem = createDOMElement('div', filterButtonsElement, {
-        className: 'filter-buttons__btn',
-      });
+      techno.element = createDOMElement('button', filterButtonsElement);
       // Click handler
-      buttonContainerElem.addEventListener('click', app.toggleTechno(techno.name));
+      techno.element.addEventListener('click', app.toggleTechno(techno));
       // Icon and text
-      createDOMElement('img', buttonContainerElem, {
+      createDOMElement('img', techno.element, {
         src: `img/icons/${techno.icon}`,
-        className: 'filter-buttons__btn__icon',
       });
-      createDOMElement('p', buttonContainerElem, { textContent: techno.name });
+      createDOMElement('p', techno.element, { textContent: techno.name });
     });
     app.updateProjects();
   },
 
   updateProjects() {
     // If no filter selected, consider that all are active
-    app.state.technos.forEach((techno) => {
-      if (techno.active) console.log(techno.name);
-    });
+    console.log(app.state.technos
+      .filter((tech) => !app.state.masterFilter || tech.checked)
+      .map((tech) => tech.name));
   },
+
+  async buildUI() {
+    if (app.state.technos === null) {
+      await app.fetchData();
+      app.state.technos = app.state.technos.map((tech) => ({ ...tech, checked: false }));
+    }
+    app.createFilters();
+    app.updateProjects();
+  },
+
+  addListeners() {
+    app.filterToggleButtonElem = document.getElementById('filter-buttons__toggle');
+    app.filterToggleButtonElem.addEventListener('click', app.toggleMasterFilter);
+  },
+
 };
 
 app.init();
