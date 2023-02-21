@@ -1,3 +1,10 @@
+/**
+ * Create an HTMLElement in the DOM.
+ * @param {string} tag Name of the HTML tag.
+ * @param {HTMLElement} parent Element to which the created element will be parented.
+ * @param {Array} attributes List of {atttribute: value} to setup the element.
+ * @returns {HTMLElement} The created element.
+ */
 function createDOMElement(tag, parent, attributes = []) {
   const element = document.createElement(tag);
   parent.appendChild(element);
@@ -10,7 +17,7 @@ function createDOMElement(tag, parent, attributes = []) {
 const app = {
 
   state: {
-    masterFilter: false,
+    masterFilter: false, // Is the filter button checked?
     technos: null,
     projects: null,
   },
@@ -51,7 +58,7 @@ const app = {
    */
   toggleTechno(techno) {
     return (event) => {
-      // If filtering was off, clear the filters before adding the clicked one
+      // If filtering was off, clear the filters before adding the clicked one.
       if (!app.state.masterFilter) {
         app.state.technos.forEach((tech) => {
           tech.checked = false;
@@ -65,6 +72,11 @@ const app = {
     };
   },
 
+  /**
+   * Set the visual state of an element.
+   * @param {HTMLButtonElement} element The button to activate/deactivate.
+   * @param {Boolean} state True to activate the element.
+   */
   setButtonActivated(element, state) {
     if (state) {
       element.classList.add('button--active');
@@ -83,6 +95,9 @@ const app = {
     });
   },
 
+  /**
+   * Read the json files needed for the application.
+   */
   async fetchData() {
     try {
       // Fetch technos
@@ -97,7 +112,10 @@ const app = {
     }
   },
 
-  createFilters() {
+  /**
+   * Create the techno buttons to filter projects, according to the fetched technos.
+   */
+  createFilterButtons() {
     const filterButtonsElement = document.getElementById('filter-buttons');
     app.state.technos.forEach((techno) => {
       // Create the button
@@ -113,6 +131,9 @@ const app = {
     app.updateProjects();
   },
 
+  /**
+   * Show/hide projects depending on the filters.
+   */
   updateProjects() {
     // If no filter selected, consider that all are active
     const filteredTechnos = app.state.technos
@@ -126,15 +147,21 @@ const app = {
     console.log(filteredProjects.map((project) => project.name));
   },
 
+  /**
+   * Init the UI.
+   */
   async buildUI() {
     if (app.state.technos === null) {
       await app.fetchData();
       app.state.technos = app.state.technos.map((tech) => ({ ...tech, checked: false }));
     }
-    app.createFilters();
+    app.createFilterButtons();
     app.updateProjects();
   },
 
+  /**
+   * Add event listeners to DOM elements.
+   */
   addListeners() {
     app.filterToggleButtonElem = document.getElementById('filter-buttons__toggle');
     app.filterToggleButtonElem.addEventListener('click', app.toggleMasterFilter);
