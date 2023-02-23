@@ -14,6 +14,28 @@ function createDOMElement(tag, parent, attributes = {}) {
   return element;
 }
 
+/**
+ * Create a button with (optional) text, icon and click handler function.
+ * @param {HTMLElement} parentElem Element to which the created button will be parented
+ * @param {String} caption Text displayed on the button
+ * @param {String} iconSrc URL to the icon
+ * @param {Function} clickHandler Handler function to trigger on click.
+ * @returns {HTMLButtonElement} The created button
+ */
+function createButton(parentElem, caption = null, iconSrc = null, clickHandler = null) {
+  const buttonElem = createDOMElement('button', parentElem);
+  if (iconSrc) {
+    createDOMElement('img', buttonElem, { src: iconSrc });
+  }
+  if (caption) {
+    createDOMElement('p', buttonElem, { textContent: caption });
+  }
+  if (clickHandler) {
+    buttonElem.addEventListener('click', clickHandler);
+  }
+  return buttonElem;
+}
+
 const app = {
 
   state: {
@@ -117,15 +139,12 @@ const app = {
   createFilterButtons() {
     const filterButtonsElem = document.getElementById('filter-buttons');
     app.state.technos.forEach((techno) => {
-      // Create the button
-      techno.filterBtnElem = createDOMElement('button', filterButtonsElem);
-      // Click handler
-      techno.filterBtnElem.addEventListener('click', app.toggleTechno(techno));
-      // Icon and text
-      createDOMElement('img', techno.filterBtnElem, {
-        src: `img/icons/${techno.icon}`,
-      });
-      createDOMElement('p', techno.filterBtnElem, { textContent: techno.name });
+      createButton(
+        filterButtonsElem,
+        techno.name,
+        `img/icons/${techno.icon}`,
+        app.toggleTechno(techno),
+      );
     });
   },
 
@@ -144,7 +163,7 @@ const app = {
     app.state.projects.forEach((project) => {
       const projectFragment = document.importNode(projectTemplateElem.content, true);
       // Main image
-      const mainImageElem = projectFragment.querySelector('.project-main-image');
+      const mainImageElem = projectFragment.querySelector('.project-image');
       mainImageElem.alt = project.name;
       mainImageElem.src = `img/projects/${project.image}`;
       // Srcset if provided
@@ -152,7 +171,25 @@ const app = {
         mainImageElem.srcset = project.imageSources.map((imageData) => `img/projects/${imageData.join(' ')}`).join(', ');
       }
       // Details
-      // ...
+      projectFragment.querySelector('.project-details__title').textContent = project.name;
+      projectFragment.querySelector('.project-details__description').textContent = project.description;
+      const buttonsElem = projectFragment.querySelector('.project-details-buttons');
+      if (project.website) {
+        const webSiteLinkElem = createDOMElement('a', buttonsElem, {
+          className: 'project-details-buttons-website-link',
+          href: project.website,
+          target: '_blank',
+        });
+        createButton(webSiteLinkElem, 'Visiter le site', 'img/icons/website.svg');
+      }
+      if (project.github) {
+        const gitHubLinkElem = createDOMElement('a', buttonsElem, {
+          className: 'project-details-buttons-github-link',
+          href: project.github,
+          target: '_blank',
+        });
+        createButton(gitHubLinkElem, 'Visiter le repo', 'img/icons/github.svg');
+      }
 
       // Footer
       const footerElem = projectFragment.querySelector('.project-footer');
