@@ -1,6 +1,7 @@
 [
   {
     "name": "Guess Who?",
+    "description": "Reproduction du jeu de société \"Qui est-ce ?\" (Hasbro - Tous droits réservés).",
     "technos": [
       "HTML5",
       "CSS3",
@@ -16,7 +17,31 @@
     "website": "https://anthonyledu.github.io/Guess-Who/"
   },
   {
+    "name": "Dietitian Companion",
+    "description": "Outil permettant aux diététicien(ne)s de remplir des journaux alimentaires et de calculer la balance nutrionnelle de leur patient.",
+    "technos": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Git",
+      "PostgreSQL",
+      "Express.js",
+      "EJS",
+      "Node.js",
+      "Sequelize",
+      "REST API"
+    ],
+    "image": "guess-who_800px.jpg",
+    "imageSources": [
+      ["dietitian-companion_800px.jpg", "1280w"],
+      ["dietitian-companion_400px.jpg", "640w"]
+    ],
+    "github": "https://github.com/AnthonyLeDu/dietitian-companion",
+    "website": null
+  },
+  {
     "name": "Vinted combined search",
+    "description": "Module permettant de trouver les utilisateurs Vinted qui ont plusieurs articles que l'on recherche dans leur dressing (pour économiser sur les frais de port).",
     "technos": [
       "TypeScript",
       "Git",
