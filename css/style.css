@@ -95,6 +95,12 @@ h1 {
 .header-links__link > img {
   width: 2em;
   margin: 0.5em;
+  transition: all 0.2s;
+}
+
+.header-links__link:hover > img {
+  scale: 1.15;
+  transition: all 0.2s;
 }
 
 /* Buttons */
@@ -112,6 +118,7 @@ button {
   display: flex;
   align-items: center;
   gap: 0.5em;
+  transition: all 0.2s;
 }
 
 button * {
@@ -124,6 +131,7 @@ button img {
 
 .button--off {
   filter: grayscale(1.0) opacity(var(--semi-transparent));
+  transition: all 0.2s;
 }
 
 /* Filter */
@@ -165,6 +173,12 @@ button img {
 
 .project-image {
   width: 100%;
+  transition: all 0.5s;
+}
+
+.project-main:hover .project-image {
+  filter:blur(1.5px) brightness(0.1);
+  transition: all 0.2s;
 }
 
 .project-details {
@@ -191,12 +205,7 @@ button img {
 
 .project-main:hover .project-details {
   opacity: 1.0;
-  transition: opacity 0.15s;
-}
-
-.project-main:hover .project-image {
-  filter:blur(1.5px) brightness(0.1);
-  transition: filter 0.15s;
+  transition: opacity 0.2s;
 }
 
 .project-details-buttons {
@@ -229,6 +238,7 @@ button img {
 }
 
 .project-techno__tooltip {
+  pointer-events: none;
   position: absolute;
   z-index: 1;
   height: 1em;
@@ -238,23 +248,28 @@ button img {
   top: 150%;
   left: 50%;
   opacity: 0;
-  transition: opacity 0.5s;
-}
-
-.project-techno__icon {
-  height: 100%;
-  filter: grayscale();
-}
-
-.project-techno__icon--active {
-  height: 100%;
-  filter: grayscale(0.0);
+  scale: 0.7;
+  transition: all 0.2s;
 }
 
 .project-techno:hover .project-techno__tooltip {
   visibility: visible;
   opacity: 100;
+  scale: 1.0;
+  transition: all 0.1s;
 }
+
+.project-techno__icon {
+  height: 100%;
+  filter: grayscale();
+  transition: all 0.2s;
+}
+
+.project-techno__icon--active {
+  filter: grayscale(0.0);
+  transition: all 0.2s;
+}
+
 
 /* Footer */
 footer {
