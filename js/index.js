@@ -191,7 +191,7 @@ const app = {
     }
 
     document.querySelectorAll('.project').forEach((projectElem) => {
-      let visible = true;
+      let visible = false;
       projectElem.querySelectorAll('.project-techno').forEach((technoElem) => {
         visible = visible || filteredTechnos.includes(technoElem.dataset.techName);
         // Icons "activation" (color)
