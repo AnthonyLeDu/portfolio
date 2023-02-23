@@ -30,7 +30,9 @@
     </div>
     <div class="project-footer">
       <h4 class="project-footer__title"></h4>
-      <!-- Project technos -->
+      <div class="project-technos">
+        <!-- Project technos -->
+      </div>
     </div>
   </article>
 </template>
@@ -43,7 +45,7 @@
 </template>
 
 <body>
-
+  <div id="darkening"></div>
   <header>
     <div id="header-title-and-links">
       <div id="header-title" class="box">
@@ -65,11 +67,17 @@
         </a>
       </nav>
     </div>
-    <div id="filter-buttons" class="box">
-      <button id="filter-buttons__toggle" title="Filtrer par technologies">
-        <img src="img/icons/filter.svg" alt="Clear filters">
-      </button>
-      <div class="spacer"></div>
+    <div id="filter" class="box">
+      <div id="filter-header">
+        <img id="filter-header__expand" class="filter-header__expand--off" src="img/icons/expand.svg" alt="Expand technologies">
+        <p>Filtrer par technologies</p>
+        <div class="spacer"></div>
+        <button id="filter-header__master-toggle" title="Filtrer par technologies">
+          <img src="img/icons/filter.svg" alt="Clear filters">
+        </button>
+      </div>
+      <div id="filter-buttons" class="filter-buttons--hidden">
+      </div>
     </div>
   </header>
 

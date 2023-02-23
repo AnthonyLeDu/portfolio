@@ -1,33 +1,35 @@
 :root {
-  --color-main: hsl(215, 100%, 20%);
-  --semi-transparent: 0.4;
+  --semi-transparent: .6;
+  --gutter: 1rem;
+  --half-gutter: calc(var(--gutter)*.5);
+  --quarter-gutter: calc(var(--gutter)*.25);
 }
 
-body {
-  position: relative;
-  font-family: 'Chakra Petch', sans-serif;
-  color: #FFFFFF;
-  background-image: url(../img/background.jpg);
-  background-size: cover;
-  background-position-x: center;
-  height: 2000px;
-}
-
-/* Trick to be able to filter the background
-from : https://css-tricks.com/apply-a-filter-to-a-background-image/ */
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(../img/background.jpg);
-  filter: grayscale(0.5);
+.box {
+  padding: var(--half-gutter);
+  background-color: #FFFFFF11;
+  border-radius: var(--quarter-gutter);
 }
 
 .spacer {
   flex-grow: 1;
+}
+
+body {
+  width: 100vw;
+  position: relative;
+  font-family: 'Chakra Petch', sans-serif;
+  color: #FFFFFF;
+  text-align: center;
+  background-image: url(../img/background.jpg);
+  background-size: cover;
+}
+
+#darkening {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #00000099;
 }
 
 header,
@@ -38,39 +40,33 @@ footer {
 
 /* Header */
 header {
-  width: 100%;
   box-sizing: border-box;
-  padding: 2em;
-  text-align: center;
+  width: 100%;
+  padding: var(--half-gutter);
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 0.3em;
+  align-items: stretch;
+  gap: var(--quarter-gutter);
 }
 
 #header-title-and-links {
   display: flex;
+  max-width: 100%;
   gap: inherit;
   align-items: stretch;
-  flex-shrink: 0;
-}
-
-.box {
-  padding: 0.9em;
-  background-color: #FFFFFF11;
-  vertical-align: middle;
-  border-radius: 0.3em;
 }
 
 #header-title {
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  display: flex;
 }
 
 h1,
 h2 {
-  font-size: 1.25em;
-  margin: 0.25em 0;
+  font-size: 1em;
+  margin: var(--quarter-gutter) 0;
 }
 
 h1 {
@@ -81,20 +77,21 @@ h1 {
 #header-links {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
+  flex-grow: 1;
   gap: 0.5em;
+  justify-content: space-evenly;
+  align-content: space-evenly;
 }
 
 .header-links__link {
   text-decoration: none;
   color: inherit;
   font-size: 0.75em;
+  width: 40px;
 }
 
 .header-links__link > img {
-  width: 2em;
-  margin: 0.5em;
+  width: 1.2rem;
   transition: all 0.2s;
 }
 
@@ -105,11 +102,11 @@ h1 {
 
 /* Buttons */
 button {
-  background-color: #FFFFFF33;
+  background-color: #FFFFFF44;
   border: 1px solid #FFFFFF;
   color: #FFFFFF;
   border-radius: 100vmax;
-  padding: 0.6em;
+  padding: 0.4rem;
   cursor: pointer;
   -webkit-user-select: none;  
   -moz-user-select: none;    
@@ -117,7 +114,7 @@ button {
   user-select: none;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.5rem;
   transition: all 0.2s;
 }
 
@@ -126,37 +123,70 @@ button * {
 }
 
 button img {
-  height: 1.2em;
+  height: 1.2rem;
 }
 
 .button--off {
-  filter: grayscale(1.0) opacity(var(--semi-transparent));
+  background-color: #FFFFFF00;
+  border: 1px solid #FFFFFF44;
+  color: #FFFFFF44;
+  filter: grayscale(1.0);
   transition: all 0.2s;
 }
 
 /* Filter */
+#filter {
+  flex-grow: 1;
+}
+
+#filter-header {
+  display: flex;
+  padding: 0 2rem;
+  align-items: center;
+}
+
+#filter-header__expand {
+  height: 1rem;
+  transition: all 0.2s;
+  margin-right: 0.5em;
+}
+
+.filter-header__expand--off {
+  rotate: -90deg;
+  transition: all 0.2s;
+}
+
+#filter-header__master-toggle {
+  z-index: 1;
+}
+
 #filter-buttons {
-  position: relative;
-  margin-left: 2em;
+  margin-top: var(--half-gutter);
   font-size: 0.9em;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
-  justify-content:flex-end;
+  justify-content: center;
   align-items: center;
+  align-content: flex-start;
+}
+
+#filter-buttons.filter-buttons--hidden {
+  display: none
 }
 
 /* Project */
 #projects {
-  margin: 0 2rem;
+  margin: 0 var(--half-gutter);
   justify-content: space-evenly;
   display: flex;
+  flex-wrap: wrap;
   align-items: stretch;
-  gap: 2em;
+  gap: var(--gutter);
 }
 
 .project {
-  flex-basis: 30%;
+  flex-basis: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -217,12 +247,11 @@ button img {
   text-decoration: none;
 }
 
-
 .project-footer {
   background-color: #00000055;
-  height: 1.5em;
   padding: 0.2em;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.2em;
 }
@@ -232,8 +261,12 @@ button img {
   flex-grow: 1;
 }
 
+.project-technos {
+  display: flex;
+}
+
 .project-techno {
-  height: 85%;
+  height: 1em;
   position: relative;
 }
 
@@ -273,29 +306,89 @@ button img {
 
 /* Footer */
 footer {
-  padding: 0.5em;
-  position: fixed;
-  bottom: 0;
+  margin-top: var(--gutter);
+  box-sizing: border-box;
   width: 100%;
-  text-align: center;
-  font-size: 0.8em;
+  padding: var(--gutter);
+  font-size: 0.8rem;
   color: #CCCCCC;
-  text-shadow: #000000 0 0 0.5em;
+  text-shadow: #000000 0 0 0.25em;
 }
 
 footer a {
   color: inherit;
 }
 
+@media (min-width: 600px) {
+  :root {
+    --gutter: 1.25rem;
+  }
 
-@media (max-width: 1280px) {
+  #header-title {
+    flex-direction: row;
+    gap: 0.5em;
+  }
+
+  #header-title h1::before {
+    content: "| ";
+  }
+
+}
+
+@media (min-width: 1000px) {
+
+  :root {
+    --gutter: 1.5rem;
+  }
+  
   body {
     background-image: url(../img/background_medium.jpg);
   }
+  
+  #filter-buttons {
+    margin-left: 2em;
+  }
+  
+  .project {
+    box-sizing: border-box;
+    flex-basis: 48%;
+  }
+
+  @media (orientation: landscape) {
+    header {
+      flex-direction: row;
+    }
+    
+    #header-title-and-links {
+      flex-direction: row;
+      max-width: fit-content;
+    }
+  
+    #header-title {
+      flex-direction: column;
+    }
+  
+    #header-title h1::before {
+      content: "";
+    }
+  
+    #filter {
+      margin-left: var(--gutter);
+    }
+  
+  }
 }
 
-@media (max-width: 640px) {
+@media (min-width: 1400px) {
   body {
-    background-image: url(../img/background_small.jpg);
+    background-image: url(../img/background.jpg);
+  }
+
+  #header-title-and-links {
+    flex-direction: row;
+  }
+
+  .project {
+    flex-basis: 31%;
   }
 }

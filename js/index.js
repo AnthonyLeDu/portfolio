@@ -82,7 +82,8 @@ const app = {
   /**
    * Master filter toggle handler.
    */
-  toggleMasterFilter() {
+  toggleMasterFilter(event) {
+    event.stopPropagation();
     app.setMasterFilter(!app.state.masterFilter);
     app.updateFilterButtons();
     app.updateProjects();
@@ -203,6 +204,7 @@ const app = {
       // Footer
       const footerElem = projectFragment.querySelector('.project-footer');
       footerElem.querySelector('.project-footer__title').textContent = project.name;
+      const footerTechnosElem = footerElem.querySelector('.project-technos');
       // Technos icons
 
       project.technos.sort().forEach((projTechName) => {
@@ -212,7 +214,7 @@ const app = {
         const technoIcon = `img/icons/${appTechno ? appTechno.icon : 'question-mark.svg'}`;
         projectTechnoFragment.querySelector('.project-techno__icon').src = technoIcon;
         projectTechnoFragment.querySelector('.project-techno__tooltip').textContent = projTechName;
-        footerElem.appendChild(projectTechnoFragment);
+        footerTechnosElem.appendChild(projectTechnoFragment);
       });
 
       projectsElem.appendChild(projectFragment);
@@ -267,7 +269,13 @@ const app = {
    * Add event listeners to DOM elements.
    */
   addListeners() {
-    app.filterToggleButtonElem = document.getElementById('filter-buttons__toggle');
+    // Filters expand
+    document.getElementById('filter-header').addEventListener('click', () => {
+      document.getElementById('filter-header__expand').classList.toggle('filter-header__expand--off');
+      document.getElementById('filter-buttons').classList.toggle('filter-buttons--hidden');
+    });
+    // Filters toggle
+    app.filterToggleButtonElem = document.getElementById('filter-header__master-toggle');
     app.filterToggleButtonElem.classList.add('button--off');
     app.filterToggleButtonElem.addEventListener('click', app.toggleMasterFilter);
   },
