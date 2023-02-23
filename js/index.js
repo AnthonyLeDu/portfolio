@@ -36,6 +36,20 @@ function createButton(parentElem, caption = null, iconSrc = null, clickHandler =
   return buttonElem;
 }
 
+/**
+ * Add or remove a class to an element.
+ * @param {HTMLElement} element Element to affect
+ * @param {String} className The class name to add or remove.
+ * @param {Boolean} add True to add, false to remove.
+ */
+function toggleClass(element, className, add = true) {
+  if (add) {
+    element.classList.add(className);
+  } else {
+    element.classList.remove(className);
+  }
+}
+
 const app = {
 
   state: {
@@ -88,7 +102,7 @@ const app = {
       }
 
       techno.checked = !techno.checked;
-      app.setButtonActivated(event.target, techno.checked);
+      this.setButtonActivated(event.target, techno.checked);
       app.updateMasterFilter();
       app.updateProjects();
     };
@@ -100,11 +114,7 @@ const app = {
    * @param {Boolean} state True to activate the element.
    */
   setButtonActivated(element, state) {
-    if (state) {
-      element.classList.add('button--active');
-    } else {
-      element.classList.remove('button--active');
-    }
+    toggleClass(element, 'button--off', !state);
   },
 
   /**
@@ -112,7 +122,7 @@ const app = {
    */
   updateFilterButtons() {
     app.state.technos.forEach((tech) => {
-      app.setButtonActivated(tech.filterBtnElem, app.state.masterFilter && tech.checked);
+      app.setButtonActivated(tech.filterButtonElem, app.state.masterFilter && tech.checked);
     });
   },
 
@@ -139,12 +149,13 @@ const app = {
   createFilterButtons() {
     const filterButtonsElem = document.getElementById('filter-buttons');
     app.state.technos.forEach((techno) => {
-      createButton(
+      techno.filterButtonElem = createButton(
         filterButtonsElem,
         techno.name,
         `img/icons/${techno.icon}`,
         app.toggleTechno(techno),
       );
+      techno.filterButtonElem.className = 'button--off';
     });
   },
 
@@ -176,7 +187,6 @@ const app = {
       const buttonsElem = projectFragment.querySelector('.project-details-buttons');
       if (project.website) {
         const webSiteLinkElem = createDOMElement('a', buttonsElem, {
-          className: 'project-details-buttons-website-link',
           href: project.website,
           target: '_blank',
         });
@@ -184,7 +194,6 @@ const app = {
       }
       if (project.github) {
         const gitHubLinkElem = createDOMElement('a', buttonsElem, {
-          className: 'project-details-buttons-github-link',
           href: project.github,
           target: '_blank',
         });
@@ -232,19 +241,13 @@ const app = {
       projectElem.querySelectorAll('.project-techno').forEach((technoElem) => {
         visible = visible || filteredTechnos.includes(technoElem.dataset.techName);
         // Icons "activation" (color)
-        const techIconElem = technoElem.querySelector('.project-techno__icon');
-        if (checkedTechnos.includes(technoElem.dataset.techName)) {
-          techIconElem.classList.add('project-techno__icon--active');
-        } else {
-          techIconElem.classList.remove('project-techno__icon--active');
-        }
+        toggleClass(
+          technoElem.querySelector('.project-techno__icon'),
+          'project-techno__icon--active',
+          checkedTechnos.includes(technoElem.dataset.techName),
+        );
       });
-      // Project's visibility
-      if (visible) {
-        projectElem.classList.remove('project--hidden');
-      } else {
-        projectElem.classList.add('project--hidden');
-      }
+      toggleClass(projectElem, 'project--hidden', !visible); // Project's visibility
     });
   },
 
@@ -265,6 +268,7 @@ const app = {
    */
   addListeners() {
     app.filterToggleButtonElem = document.getElementById('filter-buttons__toggle');
+    app.filterToggleButtonElem.classList.add('button--off');
     app.filterToggleButtonElem.addEventListener('click', app.toggleMasterFilter);
   },
 

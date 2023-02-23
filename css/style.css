@@ -122,7 +122,7 @@ button img {
   height: 1.2em;
 }
 
-button:not(.button--active) {
+.button--off {
   filter: grayscale(1.0) opacity(var(--semi-transparent));
 }
 
@@ -168,7 +168,7 @@ button:not(.button--active) {
 }
 
 .project-details {
-  visibility: hidden;
+  opacity: 0.0;
   position: absolute;
   top: 0;
   left: 0;
@@ -190,16 +190,22 @@ button:not(.button--active) {
 }
 
 .project-main:hover .project-details {
-  visibility: visible;
+  opacity: 1.0;
+  transition: opacity 0.15s;
 }
 
 .project-main:hover .project-image {
   filter:blur(1.5px) brightness(0.1);
+  transition: filter 0.15s;
 }
 
 .project-details-buttons {
   display: flex;
   justify-content: space-around;
+}
+
+.project-details-buttons a {
+  text-decoration: none;
 }
 
 
