@@ -181,14 +181,13 @@ button:not(.button--active) {
 }
 
 .project-techno__tooltip {
-  /* visibility: hidden; */
   position: absolute;
   z-index: 1;
   height: 1em;
   background-color: #000000CC;
   padding: 0.25em;
   border-radius: 0.2em;
-  top: 125%;
+  top: 150%;
   left: 50%;
   opacity: 0;
   transition: opacity 0.5s;
@@ -196,6 +195,12 @@ button:not(.button--active) {
 
 .project-techno__icon {
   height: 100%;
+  filter: grayscale();
+}
+
+.project-techno__icon--active {
+  height: 100%;
+  filter: grayscale(0.0);
 }
 
 .project-techno:hover .project-techno__tooltip {

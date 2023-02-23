@@ -89,7 +89,6 @@ const app = {
    * Update filter buttons look according to masterFilter and their own checked state.
    */
   updateFilterButtons() {
-    console.log('toto');
     app.state.technos.forEach((tech) => {
       app.setButtonActivated(tech.filterBtnElem, app.state.masterFilter && tech.checked);
     });
@@ -150,18 +149,23 @@ const app = {
       // Title
       createDOMElement('h3', projectFooterElem, { className: 'project__title' }).textContent = project.name;
       // Technos
-      project.technos.sort((a, b) => a.localeCompare(b));
+      project.technos = project.technos
+        // sorting alphabetically
+        .sort((a, b) => a.localeCompare(b))
+        // replacing tech name by an object to store its name + icon element.
+        .map((projectTech) => ({ name: projectTech }));
+      // Creating the icon elements
       project.technos.forEach((projectTech) => {
-        const appTechno = app.state.technos.find((appTech) => appTech.name === projectTech);
+        const appTechno = app.state.technos.find((appTech) => appTech.name === projectTech.name);
         const iconContainer = createDOMElement('div', projectFooterElem, { className: 'project-techno' });
         // Icon
-        createDOMElement('img', iconContainer, {
+        projectTech.element = createDOMElement('img', iconContainer, {
           className: 'project-techno__icon',
           src: `img/icons/${appTechno ? appTechno.icon : 'question-mark.svg'}`,
         });
         // Icon tooltip
         const tooltip = createDOMElement('span', iconContainer, { className: 'project-techno__tooltip' });
-        tooltip.textContent = projectTech;
+        tooltip.textContent = projectTech.name;
       });
     });
     app.updateProjects();
@@ -171,17 +175,34 @@ const app = {
    * Show/hide projects depending on the filters.
    */
   updateProjects() {
-    // If no filter selected, consider that all are active
-    const filteredTechnos = app.state.technos
-      .filter((tech) => !app.state.masterFilter || tech.checked)
-      .map((tech) => tech.name);
+    let checkedTechnos = [];
+    let filteredTechnos = [];
+
+    if (app.state.masterFilter) {
+      checkedTechnos = app.state.technos
+        .filter((tech) => tech.checked)
+        .map((tech) => tech.name);
+      filteredTechnos = [...checkedTechnos];
+    } else {
+      // If filter is off, consider all projects must be displayed
+      filteredTechnos = app.state.technos.map((tech) => tech.name);
+    }
 
     app.state.projects.forEach((project) => {
-      if (project.technos.filter((tech) => filteredTechnos.includes(tech)).length > 0) {
-        project.element.classList.remove('project--hidden');
-      } else {
+      // Showing project card for filtered projects only
+      if (project.technos.filter((tech) => filteredTechnos.includes(tech.name)).length === 0) {
         project.element.classList.add('project--hidden');
+        return;
       }
+      project.element.classList.remove('project--hidden');
+      // Activating icons corresponding to checked technos only
+      project.technos.forEach((tech) => {
+        if (checkedTechnos.includes(tech.name)) {
+          tech.element.classList.add('project-techno__icon--active');
+        } else {
+          tech.element.classList.remove('project-techno__icon--active');
+        }
+      });
     });
   },
 
