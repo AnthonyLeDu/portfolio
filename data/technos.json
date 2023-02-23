@@ -38,6 +38,10 @@
   {
     "name": "TypeScript",
     "icon": "typescript.svg"
+  },
+  {
+    "name": "REST API",
+    "icon": "rest-api.svg"
   }
 
 ]
