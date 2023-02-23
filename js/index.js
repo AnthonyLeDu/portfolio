@@ -129,44 +129,47 @@ const app = {
     });
   },
 
-  createProjectsBoxes() {
+  /**
+   * Create the projects cards in the DOM.
+   */
+  createProjectsCards() {
     const projectsElem = document.getElementById('projects');
+    projectsElem.textContent = ''; // Clear
+
+    // Finding templates
+    const projectTemplateElem = document.getElementById('project-template');
+    const projectTechnoTemplateElem = document.getElementById('project-techno-template');
+
+    // Adding projects cards
     app.state.projects.forEach((project) => {
-      // Container
-      project.element = createDOMElement('article', projectsElem, { className: 'project box' });
-      // Image
-      const imageElem = createDOMElement('img', project.element, {
-        className: 'project__image',
-        alt: project.name,
-        src: `img/projects/${project.image}`,
-      });
+      const projectFragment = document.importNode(projectTemplateElem.content, true);
+      // Main image
+      const mainImageElem = projectFragment.querySelector('.project-main-image');
+      mainImageElem.alt = project.name;
+      mainImageElem.src = `img/projects/${project.image}`;
       // Srcset if provided
       if (project.imageSources) {
-        imageElem.srcset = project.imageSources.map((imageData) => `img/projects/${imageData.join(' ')}`).join(', ');
+        mainImageElem.srcset = project.imageSources.map((imageData) => `img/projects/${imageData.join(' ')}`).join(', ');
       }
+      // Details
+      // ...
+
       // Footer
-      const projectFooterElem = createDOMElement('div', project.element, { className: 'project-footer' });
-      // Title
-      createDOMElement('h3', projectFooterElem, { className: 'project__title' }).textContent = project.name;
-      // Technos
-      project.technos = project.technos
-        // sorting alphabetically
-        .sort((a, b) => a.localeCompare(b))
-        // replacing tech name by an object to store its name + icon element.
-        .map((projectTech) => ({ name: projectTech }));
-      // Creating the icon elements
-      project.technos.forEach((projectTech) => {
-        const appTechno = app.state.technos.find((appTech) => appTech.name === projectTech.name);
-        const iconContainer = createDOMElement('div', projectFooterElem, { className: 'project-techno' });
-        // Icon
-        projectTech.element = createDOMElement('img', iconContainer, {
-          className: 'project-techno__icon',
-          src: `img/icons/${appTechno ? appTechno.icon : 'question-mark.svg'}`,
-        });
-        // Icon tooltip
-        const tooltip = createDOMElement('span', iconContainer, { className: 'project-techno__tooltip' });
-        tooltip.textContent = projectTech.name;
+      const footerElem = projectFragment.querySelector('.project-footer');
+      footerElem.querySelector('.project-footer__title').textContent = project.name;
+      // Technos icons
+
+      project.technos.sort().forEach((projTechName) => {
+        const projectTechnoFragment = document.importNode(projectTechnoTemplateElem.content, true);
+        projectTechnoFragment.querySelector('.project-techno').dataset.techName = projTechName;
+        const appTechno = app.state.technos.find((appTech) => appTech.name === projTechName);
+        const technoIcon = `img/icons/${appTechno ? appTechno.icon : 'question-mark.svg'}`;
+        projectTechnoFragment.querySelector('.project-techno__icon').src = technoIcon;
+        projectTechnoFragment.querySelector('.project-techno__tooltip').textContent = projTechName;
+        footerElem.appendChild(projectTechnoFragment);
       });
+
+      projectsElem.appendChild(projectFragment);
     });
     app.updateProjects();
   },
@@ -177,7 +180,6 @@ const app = {
   updateProjects() {
     let checkedTechnos = [];
     let filteredTechnos = [];
-
     if (app.state.masterFilter) {
       checkedTechnos = app.state.technos
         .filter((tech) => tech.checked)
@@ -188,21 +190,24 @@ const app = {
       filteredTechnos = app.state.technos.map((tech) => tech.name);
     }
 
-    app.state.projects.forEach((project) => {
-      // Showing project card for filtered projects only
-      if (project.technos.filter((tech) => filteredTechnos.includes(tech.name)).length === 0) {
-        project.element.classList.add('project--hidden');
-        return;
-      }
-      project.element.classList.remove('project--hidden');
-      // Activating icons corresponding to checked technos only
-      project.technos.forEach((tech) => {
-        if (checkedTechnos.includes(tech.name)) {
-          tech.element.classList.add('project-techno__icon--active');
+    document.querySelectorAll('.project').forEach((projectElem) => {
+      let visible = true;
+      projectElem.querySelectorAll('.project-techno').forEach((technoElem) => {
+        visible = visible || filteredTechnos.includes(technoElem.dataset.techName);
+        // Icons "activation" (color)
+        const techIconElem = technoElem.querySelector('.project-techno__icon');
+        if (checkedTechnos.includes(technoElem.dataset.techName)) {
+          techIconElem.classList.add('project-techno__icon--active');
         } else {
-          tech.element.classList.remove('project-techno__icon--active');
+          techIconElem.classList.remove('project-techno__icon--active');
         }
       });
+      // Project's visibility
+      if (visible) {
+        projectElem.classList.remove('project--hidden');
+      } else {
+        projectElem.classList.add('project--hidden');
+      }
     });
   },
 
@@ -215,7 +220,7 @@ const app = {
       app.state.technos = app.state.technos.map((tech) => ({ ...tech, checked: false }));
     }
     app.createFilterButtons();
-    app.createProjectsBoxes();
+    app.createProjectsCards();
   },
 
   /**

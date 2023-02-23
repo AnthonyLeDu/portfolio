@@ -17,6 +17,26 @@
   <script src="js/index.js" defer></script>
 </head>
 
+<template id="project-template">
+  <article class="project box">
+    <div class="project-main">
+      <img class="project-main-image">
+      <div class="project-main-details"></div>
+    </div>
+    <div class="project-footer">
+      <h3 class="project-footer__title"></h3>
+      <!-- Project technos -->
+    </div>
+  </article>
+</template>
+
+<template id="project-techno-template">
+  <div class="project-techno">
+    <img class="project-techno__icon">
+    <span class="project-techno__tooltip"></span>
+  </div>
+</template>
+
 <body>
 
   <header>
@@ -49,8 +69,7 @@
   </header>
 
   <main>
-    <div id="projects">
-    </div>
+    <div id="projects"></div>
   </main>
 
   <footer>
