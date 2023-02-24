@@ -92,11 +92,11 @@ h1 {
   text-decoration: none;
   color: inherit;
   font-size: 0.75em;
-  width: 40px;
 }
 
 .header-links__link > img {
-  width: 1.2rem;
+  width: var(--gutter);
+  margin-bottom: 0.25em;
   transition: all 0.2s;
 }
 
