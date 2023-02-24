@@ -201,7 +201,7 @@ button img {
 
 .project {
   box-sizing: border-box;
-  flex-basis: 80%;
+  flex-basis: 30em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -353,10 +353,6 @@ footer a {
   #header-title h1::before {
     content: "| ";
   }
-
-  .project {
-    flex-basis: 45%;
-  }
 }
 
 @media (min-width: 1000px) {
@@ -393,10 +389,6 @@ footer a {
   #filter-buttons {
     margin-left: 2em;
   }
-  
-  .project {
-    flex-basis: 30%;
-  }
 
 }
 
@@ -412,8 +404,5 @@ footer a {
   #header-title-and-links {
     flex-direction: row;
   }
-
-  .project {
-    flex-basis: 23%;
-  }
+  
 }
