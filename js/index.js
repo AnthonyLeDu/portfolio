@@ -139,6 +139,7 @@ const app = {
       // Fetch projects
       const response2 = await fetch('../data/projects.json');
       app.state.projects = await response2.json();
+      app.state.projects.sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
       console.error(`Error while fetching data : ${error}`);
     }
@@ -178,10 +179,6 @@ const app = {
       const mainImageElem = projectFragment.querySelector('.project-image');
       mainImageElem.alt = project.name;
       mainImageElem.src = `img/projects/${project.image}`;
-      // Srcset if provided
-      if (project.imageSources) {
-        mainImageElem.srcset = project.imageSources.map((imageData) => `img/projects/${imageData.join(' ')}`).join(', ');
-      }
       // Details
       projectFragment.querySelector('.project-details__title').textContent = project.name;
       projectFragment.querySelector('.project-details__description').textContent = project.description;

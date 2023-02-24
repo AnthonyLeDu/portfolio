@@ -1,5 +1,6 @@
 :root {
   --semi-transparent: .6;
+  --border-radius: 0.25rem;
   --gutter: 1rem;
   --half-gutter: calc(var(--gutter)*.5);
   --quarter-gutter: calc(var(--gutter)*.25);
@@ -8,7 +9,7 @@
 .box {
   padding: var(--half-gutter);
   background-color: #FFFFFF11;
-  border-radius: var(--quarter-gutter);
+  border-radius: var(--border-radius);
 }
 
 .spacer {
@@ -16,7 +17,10 @@
 }
 
 body {
-  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  width: 100w;
+  min-height: 100vh;
   position: relative;
   font-family: 'Chakra Petch', sans-serif;
   color: #FFFFFF;
@@ -58,6 +62,7 @@ header {
 }
 
 #header-title {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -122,6 +127,11 @@ button * {
   pointer-events: none;
 }
 
+button:hover {
+  scale: 1.05;
+  transition: all 0.2s;
+}
+
 button img {
   height: 1.2rem;
 }
@@ -136,7 +146,11 @@ button img {
 
 /* Filter */
 #filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex-grow: 1;
+  cursor: pointer;
 }
 
 #filter-header {
@@ -177,7 +191,7 @@ button img {
 
 /* Project */
 #projects {
-  margin: 0 var(--half-gutter);
+  margin: var(--gutter) var(--half-gutter);
   justify-content: space-evenly;
   display: flex;
   flex-wrap: wrap;
@@ -186,7 +200,8 @@ button img {
 }
 
 .project {
-  flex-basis: 100%;
+  box-sizing: border-box;
+  flex-basis: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -203,6 +218,7 @@ button img {
 
 .project-image {
   width: 100%;
+  border-radius: var(--border-radius);
   transition: all 0.5s;
 }
 
@@ -212,7 +228,10 @@ button img {
 }
 
 .project-details {
+  font-size: 0.8rem;
   opacity: 0.0;
+  border: 1px solid #FFFFFF00;
+  border-radius: var(--border-radius);
   position: absolute;
   top: 0;
   left: 0;
@@ -223,18 +242,20 @@ button img {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1em;
-  padding: 2em;
+  gap: var(--half-gutter);
+  padding: var(--half-gutter);
   text-align: center;
+  transition: all 0.2s;
 }
 
 .project-details__title {
-  font-size: 1.4em;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
 .project-main:hover .project-details {
   opacity: 1.0;
+  border-color: #FFFFFF55;
   transition: opacity 0.2s;
 }
 
@@ -277,9 +298,9 @@ button img {
   height: 1em;
   background-color: #000000CC;
   padding: 0.25em;
-  border-radius: 0.2em;
+  border-radius: var(--border-radius);
   top: 150%;
-  left: 50%;
+  right: 50%;
   opacity: 0;
   scale: 0.7;
   transition: all 0.2s;
@@ -333,6 +354,9 @@ footer a {
     content: "| ";
   }
 
+  .project {
+    flex-basis: 45%;
+  }
 }
 
 @media (min-width: 1000px) {
@@ -344,42 +368,43 @@ footer a {
   body {
     background-image: url(../img/background_medium.jpg);
   }
+
+  header {
+    flex-direction: row;
+  }
   
+  #header-title-and-links {
+    flex-direction: row;
+    max-width: fit-content;
+  }
+
+  #header-title {
+    flex-direction: column;
+  }
+
+  #header-title h1::before {
+    content: "";
+  }
+  
+  #filter {
+    margin-left: var(--gutter);
+  }
+
   #filter-buttons {
     margin-left: 2em;
   }
   
   .project {
-    box-sizing: border-box;
-    flex-basis: 48%;
+    flex-basis: 30%;
   }
 
-  @media (orientation: landscape) {
-    header {
-      flex-direction: row;
-    }
-    
-    #header-title-and-links {
-      flex-direction: row;
-      max-width: fit-content;
-    }
-  
-    #header-title {
-      flex-direction: column;
-    }
-  
-    #header-title h1::before {
-      content: "";
-    }
-  
-    #filter {
-      margin-left: var(--gutter);
-    }
-  
-  }
 }
 
 @media (min-width: 1400px) {
+  :root {
+    --gutter: 2rem;
+  }
+
   body {
     background-image: url(../img/background.jpg);
   }
@@ -389,6 +414,6 @@ footer a {
   }
 
   .project {
-    flex-basis: 31%;
+    flex-basis: 23%;
   }
 }
