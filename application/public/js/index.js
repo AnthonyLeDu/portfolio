@@ -54,8 +54,9 @@ const app = {
 
   state: {
     masterFilter: false, // Is the filter button checked?
-    technos: null,
-    projects: null,
+    links: [],
+    technos: [],
+    projects: [],
   },
 
   init() {
@@ -130,27 +131,50 @@ const app = {
    * Read the json files needed for the application.
    */
   async fetchData() {
-    try {
-      // Fetch technos
-      const response1 = await fetch('data/technos.json');
-      app.state.technos = await response1.json();
-      app.state.technos.sort((a, b) => a.name.localeCompare(b.name));
-      // Fetch projects
-      const response2 = await fetch('data/projects.json');
-      app.state.projects = await response2.json();
-      app.state.projects.sort((a, b) => a.name.localeCompare(b.name));
-      return true;
-    } catch (error) {
-      console.error(`Error while fetching data : ${error}`);
-      return false;
-    }
+    return Promise.all([
+      fetch('data/links.json')
+        .then((response) => response.json()),
+      fetch('data/technos.json')
+        .then((response) => response.json()),
+      fetch('data/projects.json')
+        .then((response) => response.json()),
+    ])
+      .then((values) => {
+        [app.state.links, app.state.technos, app.state.projects] = values;
+        return true;
+      })
+      .catch((error) => {
+        console.error(`Error while fetching data : ${error}`);
+        return false;
+      });
+  },
+
+  /**
+   * Create the external links buttons.
+   */
+  createExternalLinksButtons() {
+    const headerLinksElem = document.getElementById('header-links');
+    if (!headerLinksElem) return;
+    const linkTemplateElem = document.getElementById('external-link-template');
+    app.state.links.forEach((link) => {
+      const linkFragment = document.importNode(linkTemplateElem.content, true);
+      linkFragment.querySelector('a').href = link.href;
+      const linkImageElem = linkFragment.querySelector('img');
+      linkImageElem.src = `img/icons/${link.icon}`;
+      linkImageElem.alt = `img/icons/${link.alt}`;
+      linkFragment.querySelector('p').textContent = link.title;
+      headerLinksElem.appendChild(linkFragment);
+    });
   },
 
   /**
    * Create the techno buttons to filter projects, according to the fetched technos.
    */
   createFilterButtons() {
+    app.state.technos = app.state.technos.map((tech) => ({ ...tech, checked: false }));
+
     const filterButtonsElem = document.getElementById('filter-buttons');
+    if (!filterButtonsElem) return;
     app.state.technos.forEach((techno) => {
       techno.filterButtonElem = createButton(
         filterButtonsElem,
@@ -167,6 +191,7 @@ const app = {
    */
   createProjectsCards() {
     const projectsElem = document.getElementById('projects');
+    if (!projectsElem) return;
     projectsElem.textContent = ''; // Clear
 
     // Finding templates
@@ -255,11 +280,9 @@ const app = {
    * Init the UI.
    */
   async buildUI() {
-    if (app.state.technos === null) {
-      if (!await app.fetchData()) return;
-      app.state.technos = app.state.technos.map((tech) => ({ ...tech, checked: false }));
-    }
+    if (!await app.fetchData()) return;
     app.addListeners();
+    app.createExternalLinksButtons();
     app.createFilterButtons();
     app.createProjectsCards();
   },
