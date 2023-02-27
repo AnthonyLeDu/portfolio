@@ -1,8 +1,10 @@
 const express = require('express');
+const { errorsLogger, mainLogger } = require('./middlewares/loggers');
 require('dotenv').config();
 
 const app = express();
-
+app.use(errorsLogger);
+app.use(mainLogger);
 app.use(express.static('public'));
 
 app.set('port', process.env.PORT || 3000);
