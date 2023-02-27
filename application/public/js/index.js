@@ -59,7 +59,6 @@ const app = {
   },
 
   init() {
-    app.addListeners();
     app.buildUI(); // async
   },
 
@@ -133,15 +132,17 @@ const app = {
   async fetchData() {
     try {
       // Fetch technos
-      const response1 = await fetch('../data/technos.json');
+      const response1 = await fetch('data/technos.json');
       app.state.technos = await response1.json();
       app.state.technos.sort((a, b) => a.name.localeCompare(b.name));
       // Fetch projects
-      const response2 = await fetch('../data/projects.json');
+      const response2 = await fetch('data/projects.json');
       app.state.projects = await response2.json();
       app.state.projects.sort((a, b) => a.name.localeCompare(b.name));
+      return true;
     } catch (error) {
       console.error(`Error while fetching data : ${error}`);
+      return false;
     }
   },
 
@@ -255,9 +256,10 @@ const app = {
    */
   async buildUI() {
     if (app.state.technos === null) {
-      await app.fetchData();
+      if (!await app.fetchData()) return;
       app.state.technos = app.state.technos.map((tech) => ({ ...tech, checked: false }));
     }
+    app.addListeners();
     app.createFilterButtons();
     app.createProjectsCards();
   },
