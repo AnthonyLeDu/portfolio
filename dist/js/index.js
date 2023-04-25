@@ -171,6 +171,7 @@ const app = {
    * Create the techno buttons to filter projects, according to the fetched technos.
    */
   createFilterButtons() {
+    app.state.technos.sort((a, b) => a.name.localeCompare(b.name));
     app.state.technos = app.state.technos.map((tech) => ({ ...tech, checked: false }));
 
     const filterButtonsElem = document.getElementById('filter-buttons');
