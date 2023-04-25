@@ -1,7 +1,7 @@
 :root {
   --semi-transparent: .6;
   --border-radius: 0.25rem;
-  --gutter: 1rem;
+  --gutter: .9rem;
   --half-gutter: calc(var(--gutter)*.5);
   --quarter-gutter: calc(var(--gutter)*.25);
 }
@@ -94,13 +94,13 @@ h1 {
   font-size: 0.75em;
 }
 
-.header-links__link > img {
+.header-links__link>img {
   width: var(--gutter);
   margin-bottom: 0.25em;
   transition: all 0.2s;
 }
 
-.header-links__link:hover > img {
+.header-links__link:hover>img {
   scale: 1.15;
   transition: all 0.2s;
 }
@@ -113,9 +113,9 @@ button {
   border-radius: 100vmax;
   padding: 0.4rem;
   cursor: pointer;
-  -webkit-user-select: none;  
-  -moz-user-select: none;    
-  -ms-user-select: none;      
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   display: flex;
   align-items: center;
@@ -191,7 +191,7 @@ button img {
 
 /* Project */
 #projects {
-  margin: var(--gutter) var(--half-gutter);
+  margin: var(--half-gutter) var(--half-gutter);
   justify-content: space-evenly;
   display: flex;
   flex-wrap: wrap;
@@ -201,10 +201,12 @@ button img {
 
 .project {
   box-sizing: border-box;
-  flex-basis: 25em;
+  flex-basis: 28rem;
+  height: 18rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 1rem;
 }
 
 .project--hidden {
@@ -214,16 +216,19 @@ button img {
 .project-main {
   position: relative;
   width: 100%;
+  height: 100%;
 }
 
 .project-image {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: var(--border-radius);
   transition: all 0.5s;
 }
 
 .project-main:hover .project-image {
-  filter:blur(1.5px) brightness(0.1);
+  filter: blur(1.5px) brightness(0.1);
   transition: all 0.2s;
 }
 
@@ -359,7 +364,7 @@ footer a {
   :root {
     --gutter: 1.5rem;
   }
-  
+
   body {
     background-image: url(../img/background_medium.jpg);
   }
@@ -367,7 +372,7 @@ footer a {
   header {
     flex-direction: row;
   }
-  
+
   #header-title-and-links {
     flex-direction: row;
     max-width: fit-content;
@@ -380,7 +385,7 @@ footer a {
   #header-title h1::before {
     content: "";
   }
-  
+
   #filter {
     margin-left: var(--gutter);
   }
