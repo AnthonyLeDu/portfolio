@@ -13,6 +13,25 @@
     "website": "https://anthonyledu.github.io/Guess-Who/"
   },
   {
+    "name": "Wildlife Around You",
+    "description": "Application web collaborative de partage d'observations de la faune sauvage.",
+    "technos": [
+      "HTML5",
+      "CSS3",
+      "Sass",
+      "JavaScript",
+      "React.js",
+      "Redux",
+      "Node.js",
+      "Express.js",
+      "PostgreSQL",
+      "REST API",
+      "Git"
+    ],
+    "image": "way.png",
+    "website": "https://way-app.fr"
+  },
+  {
     "name": "Dietitian Companion",
     "description": "Outil permettant aux diététicien(ne)s de remplir des journaux alimentaires et de calculer la balance nutrionnelle de leur patient.",
     "technos": [
