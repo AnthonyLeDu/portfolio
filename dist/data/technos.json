@@ -42,6 +42,18 @@
   {
     "name": "REST API",
     "icon": "rest-api.svg"
+  },
+  {
+    "name": "Sass",
+    "icon": "sass.svg"
+  },
+  {
+    "name": "React.js",
+    "icon": "react.svg"
+  },
+  {
+    "name": "Redux",
+    "icon": "redux.svg"
   }
 
 ]
