@@ -1,16 +1,21 @@
 [
   {
-    "name": "Guess Who?",
-    "description": "Reproduction du jeu de société \"Qui est-ce ?\" (Hasbro - Tous droits réservés).",
+    "name": "D·PER",
+    "description": "Site vitrine d'une startup concevant des drones à mission sociale et environnementale.",
     "technos": [
       "HTML5",
       "CSS3",
+      "Sass",
       "JavaScript",
+      "TypeScript",
+      "React.js",
+      "Node.js",
+      "Express.js",
       "Git"
     ],
-    "image": "guess-who.jpg",
-    "github": "https://github.com/AnthonyLeDu/Guess-Who",
-    "website": "https://anthonyledu.github.io/Guess-Who/"
+    "image": "dper-drone.png",
+    "github": null,
+    "website": "https://www.dper-drone.com"
   },
   {
     "name": "Wildlife Around You",
@@ -32,6 +37,19 @@
     "website": "https://way-app.fr"
   },
   {
+    "name": "Guess Who?",
+    "description": "Reproduction du jeu de société \"Qui est-ce ?\" (Hasbro - Tous droits réservés).",
+    "technos": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Git"
+    ],
+    "image": "guess-who.jpg",
+    "github": "https://github.com/AnthonyLeDu/Guess-Who",
+    "website": "https://anthonyledu.github.io/Guess-Who/"
+  },
+  {
     "name": "Dietitian Companion",
     "description": "Outil permettant aux diététicien(ne)s de remplir des journaux alimentaires et de calculer la balance nutrionnelle de leur patient.",
     "technos": [
@@ -49,18 +67,6 @@
     "image": "dietitian-companion.jpg",
     "github": "https://github.com/AnthonyLeDu/dietitian-companion",
     "website": "https://dietitian-companion.anthonyledu.fr"
-  },
-  {
-    "name": "Vinted combined search",
-    "description": "Module permettant de trouver les utilisateurs Vinted qui ont plusieurs articles que l'on recherche dans leur dressing (pour économiser sur les frais de port).",
-    "technos": [
-      "TypeScript",
-      "Git",
-      "Node.js"
-    ],
-    "image": "terminal.svg",
-    "github": "https://github.com/AnthonyLeDu/vinted-combined-search",
-    "website": null
   },
   {
     "name": "Portfolio",
