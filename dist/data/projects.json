@@ -9,6 +9,7 @@
       "JavaScript",
       "TypeScript",
       "React.js",
+      "Next.js",
       "Node.js",
       "Express.js",
       "Git"
@@ -16,6 +17,23 @@
     "image": "dper-drone.png",
     "github": null,
     "website": "https://www.dper-drone.com"
+  },
+  {
+    "name": "dieteticienne-34.fr",
+    "description": "Site vitrine d'une diététicienne-nutritionniste.",
+    "technos": [
+      "HTML5",
+      "CSS3",
+      "TailwindCSS",
+      "JavaScript",
+      "TypeScript",
+      "React.js",
+      "Next.js",
+      "Git"
+    ],
+    "image": "dieteticienne-34.png",
+    "github": null,
+    "website": "https://www.dieteticienne-34.fr"
   },
   {
     "name": "Wildlife Around You",

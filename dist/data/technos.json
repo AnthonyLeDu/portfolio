@@ -24,6 +24,10 @@
     "icon": "ejs.svg"
   },
   {
+    "name": "Next.js",
+    "icon": "next-js.svg"
+  },
+  {
     "name": "Node.js",
     "icon": "node-js.svg"
   },
@@ -54,6 +58,10 @@
   {
     "name": "Redux",
     "icon": "redux.svg"
+  },
+  {
+  "name": "TailwindCSS",
+  "icon": "tailwind.svg"
   }
 
 ]
